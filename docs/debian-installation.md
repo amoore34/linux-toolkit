@@ -12,13 +12,15 @@ This project documents the installation and configuration of Debian Linux on a B
 - Install development tools
 - Build a stable Linux environment for daily use
 
-## Hardware
+## Environment 
+
+### Hardware
 
 - Beelink BT3 PRO Mini PC
 - Intel processor
 - Debian 12
 
-## Operating System
+### Operating System
 
 - Debian 12
 
