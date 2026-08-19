@@ -1,15 +1,26 @@
 #!/bin/bash
 
-VERSION="0.1.0"
+# ------------------------------------------------------------
+# Linux Toolkit
+# Script: backup.sh
+# Version: 0.2.0
+# Author: Amber Moore
+# Description: Creates a backup using rsync and reports the results.
+# ------------------------------------------------------------
+
+VERSION="0.2.0"
 
 echo "Linux Toolkit Backup Utility v$VERSION"
 echo "------------------------------------"
 
-SOURCE="$HOME/linux-toolkit-test"
-DESTINATION="/tmp/linux-toolkit-backup"
 
-echo "Source: $SOURCE"
-echo "Destination: $DESTINATION"
+SOURCE="$1"
+DESTINATION="$2"
+
+if [ -z "$SOURCE" ] || [ -z "$DESTINATION" ]; then
+	echo "Usage: $0 <source> <destination>"
+	exit 1
+fi
 
 if [ ! -d "$DESTINATION" ]; then
 	echo "Creating destination directory..."
@@ -21,6 +32,13 @@ if [ ! -d "$SOURCE" ]; then
 	exit 1
 fi
 
+echo
+echo "Backup Configuration"
+echo "--------------------"
+echo "Source:      $SOURCE"
+echo "Destination: $DESTINATION"
+echo
+
 read -p "Proceed with backup? (y/N): " ANSWER
 
 if [[ "$ANSWER" != "y" && "$ANSWER" != "Y" ]]; then
@@ -28,17 +46,33 @@ if [[ "$ANSWER" != "y" && "$ANSWER" != "Y" ]]; then
 	exit 0
 fi
 
-echo ""
+echo 
 echo "Starting backup..."
 
 rsync -av "$SOURCE/" "$DESTINATION/"
+BACKUP_STATUS=$?
 
-echo ""
-echo "Backup completed successfully."
+echo 
 
-FILE_COUNT=$(find "$DESTINATION" -type f | wc -l)
-DIRECTORY_COUNT=$(find "$DESTINATION" -type d | wc -l)
+if [ "$BACKUP_STATUS" -eq 0 ]; then
+	
+	FILE_COUNT=$(find "$DESTINATION" -type f | wc -l | xargs)
+	DIRECTORY_COUNT=$(find "$DESTINATION" -type d | wc -l | xargs)
+	FINISHED_AT=$(date)
+	
+	echo
+	echo "========== Backup Summary =========="
+	echo "Status: SUCCESS"
+	echo "Files copied: $FILE_COUNT"
+	echo "Directories copied: $DIRECTORY_COUNT"
+	echo "Finished at: $FINISHED_AT"
+	echo "===================================="
+else
+    echo "===================================="
+	echo "Status: FAILED"
+	echo "Please review the rsync output above."
+	echo "===================================="
+    exit 1
+fi
 
-echo "Files copied: $FILE_COUNT"
-echo "Directories copied: $DIRECTORY_COUNT"
-
+echo
