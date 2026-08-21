@@ -39,10 +39,13 @@ CURRENT_SHELL=$(basename "$SHELL")
 UPTIME=$(uptime)
 CPU=$(lscpu | grep "Model name" | cut -d: -f2 | xargs)
 CPU_CORES=$(nproc)
+CPU_LOAD=$?
 MEMORY_USED=$(free -m | awk '/Mem:/ {print $3}')
 MEMORY_TOTAL=$(free -m | awk '/Mem:/ {print $2}')
 MEMORY=$(free -h | awk 'NR==2 {print $2}')
+MEMORY_PERCENT=$?
 DISK_USAGE=$(df -h / | awk 'NR==2 {gsub("%",""); print $5}')
+DISK_PERCENT=$?
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 GENERATED=$(date)
 
@@ -63,19 +66,19 @@ echo "IP Address:       ${IP_ADDRESS}"
 echo "-----------------------------------------"
 echo "System Health:"
 echo "-----------------------------------------"
+
 if [ "$MEMORY_PERCENT" -gt 80 ]; then
     echo "MEMORY ALERT! Usage is ${MEMORY_PERCENT}%"
 else
     echo "Memory OK"
 fi
+
 if (( $(echo "$CPU_LOAD > 2" | bc -l) )); then
     echo "CPU ALERT!"
 else
     echo "CPU OK"
 fi
-if [ "$DISK_USAGE" -gt 80 ]; then
-    echo "Disk Status: OK"
-fi
+
 if [ "$DISK_PERCENT" -gt 85 ]; then
     echo "DISK ALERT! Usage is ${DISK_PERCENT}%"
 else
