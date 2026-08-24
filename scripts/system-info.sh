@@ -3,7 +3,7 @@
 # ------------------------------------------------------------
 # Linux Toolkit
 # Script: system-info.sh
-# Version: 1.0.0
+# Version: 1.1.0
 # Author: Amber Moore
 # Description: Prints system information
 # ------------------------------------------------------------
