@@ -7,7 +7,7 @@
 # Author: Amber Moore
 # Description: Prints system information
 # ------------------------------------------------------------
-VERSION="1.0.0"
+VERSION="1.1.0"
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Linux Toolkit System Information"
     echo
@@ -39,13 +39,12 @@ CURRENT_SHELL=$(basename "$SHELL")
 UPTIME=$(uptime)
 CPU=$(lscpu | grep "Model name" | cut -d: -f2 | xargs)
 CPU_CORES=$(nproc)
-CPU_LOAD=$?
+CPU_LOAD=$(awk '{print $1}' /proc/loadavg)
 MEMORY_USED=$(free -m | awk '/Mem:/ {print $3}')
 MEMORY_TOTAL=$(free -m | awk '/Mem:/ {print $2}')
 MEMORY=$(free -h | awk 'NR==2 {print $2}')
-MEMORY_PERCENT=$?
-DISK_USAGE=$(df -h / | awk 'NR==2 {gsub("%",""); print $5}')
-DISK_PERCENT=$?
+MEMORY_PERCENT=$(( MEMORY_USED * 100 / MEMORY_TOTAL ))
+DISK_PERCENT=$(df -h / | awk 'NR==2 {gsub("%",""); print $5}')
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 GENERATED=$(date)
 
@@ -60,8 +59,9 @@ echo "Current Shell:    ${CURRENT_SHELL}"
 echo "Uptime:           ${UPTIME}"
 echo "CPU Model:        ${CPU}"
 echo "CPU Cores:        ${CPU_CORES}"
+echo "CPU Load:         ${CPU_LOAD}"
 echo "Memory:           ${MEMORY_USED}MB / ${MEMORY_TOTAL}MB"
-echo "Disk Usage:       ${DISK_USAGE}%"
+echo "Disk Usage:       ${DISK_PERCENT}%"
 echo "IP Address:       ${IP_ADDRESS}"
 echo "-----------------------------------------"
 echo "System Health:"
@@ -70,19 +70,19 @@ echo "-----------------------------------------"
 if [ "$MEMORY_PERCENT" -gt 80 ]; then
     echo "MEMORY ALERT! Usage is ${MEMORY_PERCENT}%"
 else
-    echo "Memory OK"
+    echo "Memory   OK"
 fi
 
 if (( $(echo "$CPU_LOAD > 2" | bc -l) )); then
-    echo "CPU ALERT!"
+    echo "CPU ALERT!    Usage is ${CPU_LOAD}"
 else
-    echo "CPU OK"
+    echo "CPU      OK"
 fi
 
 if [ "$DISK_PERCENT" -gt 85 ]; then
-    echo "DISK ALERT! Usage is ${DISK_PERCENT}%"
+    echo "DISK ALERT!   Usage is ${DISK_PERCENT}%"
 else
-    echo "Disk OK"
+    echo "Disk     OK"
 fi
 echo "-----------------------------------------"
 echo
