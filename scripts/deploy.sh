@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Ensure the script is running on Linux
-#if [[ "$(uname -s)" != "Linux" ]]; then
-#    echo "ERROR: This deployment script is intended for Linux systems only."
-#    exit 1
-#fi
+if [[ "$(uname)" != "Linux" ]]; then
+    echo "This deployment script must be run on a Linux server."
+    exit 1
+fi
 
 VERSION="1.0.0"
 
-echo "Linux Website Deployment Utility v$VERSION"
+echo "Linux Portfolio Deployment Utility v$VERSION"
 echo "--------------------------------------------"
 
 SOURCE=$(pwd)
