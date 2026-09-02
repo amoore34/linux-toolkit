@@ -3,29 +3,11 @@
 # ------------------------------------------------------------
 # Linux Toolkit
 # Script: system-info.sh
-# Version: 1.2.0
+# Version: 1.1.0
 # Author: Amber Moore
-# Description: Displays system information and performs basic
-#              health checks.
+# Description: Prints system information
 # ------------------------------------------------------------
-
-VERSION="1.2.0"
-
-# Colors
-GREEN="\e[32m"
-RED="\e[31m"
-BLUE="\e[34m"
-CYAN="\e[36m"
-BOLD="\e[1m"
-RESET="\e[0m"
-
-CHECK="${GREEN}✔${RESET}"
-WARNING="${RED}✘${RESET}"
-
-# ------------------------------------------------------------
-# Help Menu
-# ------------------------------------------------------------
-
+VERSION="1.1.0"
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "Linux Toolkit System Information"
     echo
@@ -33,25 +15,21 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     echo "    system-info.sh"
     echo
     echo "Description:"
-    echo "    Displays:"
+    echo "    Displays system information including:"
     echo "      • Hostname"
     echo "      • Operating System"
-    echo "      • Current User"
     echo "      • Kernel Version"
     echo "      • Architecture"
-    echo "      • Current Shell"
-    echo "      • CPU Information"
+    echo "      • CPU Model"
     echo "      • Memory Usage"
     echo "      • Disk Usage"
     echo "      • IP Address"
-    echo "      • System Uptime"
-    echo "      • Basic Health Checks"
+    echo "      • Uptime"
     exit 0
 fi
 
-# ------------------------------------------------------------
-# Gather System Information
-# ------------------------------------------------------------
+echo "================================================"
+echo "Linux Toolkit System Information v$VERSION"
 
 HOSTNAME=$(hostname)
 CURRENT_USER=$(whoami)
@@ -63,87 +41,52 @@ UPTIME=$(uptime -p)
 CPU=$(lscpu | grep "Model name" | cut -d: -f2 | xargs)
 CPU_CORES=$(nproc)
 CPU_LOAD=$(awk '{print $1}' /proc/loadavg)
-
 MEMORY_USED=$(free -m | awk '/Mem:/ {print $3}')
 MEMORY_TOTAL=$(free -m | awk '/Mem:/ {print $2}')
 MEMORY_PERCENT=$(( MEMORY_USED * 100 / MEMORY_TOTAL ))
-
 DISK_PERCENT=$(df -h / | awk 'NR==2 {gsub("%",""); print $5}')
-
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
-
 GENERATED=$(date)
 
-# ------------------------------------------------------------
-# Header
-# ------------------------------------------------------------
-
-echo -e "${GREEN}${BOLD}"
 echo "================================================"
-echo "Linux Toolkit System Information v$VERSION"
-echo "================================================"
-echo -e "${RESET}"
-
-# ------------------------------------------------------------
-# System Information
-# ------------------------------------------------------------
-
-printf "%-18s %s\n" "Hostname:" "$HOSTNAME"
-printf "%-18s %s\n" "Operating System:" "$OS"
-printf "%-18s %s\n" "Current User:" "$CURRENT_USER"
-printf "%-18s %s\n" "Kernel:" "$KERNEL"
-printf "%-18s %s\n" "Architecture:" "$ARCH"
-printf "%-18s %s\n" "Current Shell:" "$CURRENT_SHELL"
-printf "%-18s %s\n" "Uptime:" "$UPTIME"
-printf "%-18s %s\n" "CPU Model:" "$CPU"
-printf "%-18s %s\n" "CPU Cores:" "$CPU_CORES"
-printf "%-18s %s\n" "CPU Load:" "$CPU_LOAD"
-printf "%-18s %sMB / %sMB\n" "Memory:" "$MEMORY_USED" "$MEMORY_TOTAL"
-printf "%-18s %s%%\n" "Disk Usage:" "$DISK_PERCENT"
-printf "%-18s %s\n" "IP Address:" "$IP_ADDRESS"
-
-echo
-
-echo -e "${BLUE}"
-echo "----------------------------------------"
-echo "System Health"
-echo "----------------------------------------"
-echo -e "${RESET}"
-
-# ------------------------------------------------------------
-# Memory Check
-# ------------------------------------------------------------
+echo "Hostname:         ${HOSTNAME}"
+echo "Operating System: ${OS}"
+echo "Current User:     ${CURRENT_USER}"
+echo "Kernel:           ${KERNEL}"
+echo "Architecture:     ${ARCH}"
+echo "Current Shell:    ${CURRENT_SHELL}"
+echo "Uptime:           ${UPTIME}"
+echo "CPU Model:        ${CPU}"
+echo "CPU Cores:        ${CPU_CORES}"
+echo "CPU Load:         ${CPU_LOAD}"
+echo "Memory:           ${MEMORY_USED}MB / ${MEMORY_TOTAL}MB"
+echo "Disk Usage:       ${DISK_PERCENT}%"
+echo "IP Address:       ${IP_ADDRESS}"
+echo "-----------------------------------------"
+echo "System Health:"
+echo "-----------------------------------------"
 
 if [ "$MEMORY_PERCENT" -gt 80 ]; then
-    echo -e "Memory Status     ${WARNING}  ${RED}${MEMORY_PERCENT}% Used${RESET}"
+    echo "MEMORY ALERT! Usage is ${MEMORY_PERCENT}%"
 else
-    echo -e "Memory Status     ${CHECK}"
+    echo "Memory Status   OK"
 fi
-
-# ------------------------------------------------------------
-# CPU Check
-# ------------------------------------------------------------
 
 if (( $(echo "$CPU_LOAD > 2" | bc -l) )); then
-    echo -e "CPU Status        ${WARNING}  ${RED}Load: ${CPU_LOAD}${RESET}"
+    echo "CPU ALERT!    Usage is ${CPU_LOAD}"
 else
-    echo -e "CPU Status        ${CHECK}"
+    echo "CPU Status      OK"
 fi
-
-# ------------------------------------------------------------
-# Disk Check
-# ------------------------------------------------------------
 
 if [ "$DISK_PERCENT" -gt 85 ]; then
-    echo -e "Disk Status       ${WARNING}  ${RED}${DISK_PERCENT}% Used${RESET}"
+    echo "DISK ALERT!   Usage is ${DISK_PERCENT}%"
 else
-    echo -e "Disk Status       ${CHECK}"
+    echo "Disk Status     OK"
 fi
-
+echo "-----------------------------------------"
 echo
-echo -e "${CYAN}Generated at:${RESET} $GENERATED"
-
-echo
+echo "Generated at: ${GENERATED}"
 echo "================================================"
 
 exit 0
+
