@@ -1,38 +1,132 @@
 # Linux Toolkit
 
-A collection of Linux utilities, Bash scripts, and documentation created throughout my Linux learning journey. This repository is a hands-on toolkit built from real projects involving Debian, WSL, Raspberry Pi, and Linux server administration.
+A collection of Bash scripts, Linux documentation, and system administration projects developed while learning Linux, Git, networking, Apache HTTP Server, and automation.
 
-## Purpose
+This repository serves as both a personal toolkit and a learning journal, documenting real-world projects, troubleshooting, and scripting completed in my home lab and development environments.
 
-The goal of this project is to learn Linux by solving real problems and documenting the process. Every script, document, and screenshot represents something I built, tested, or used in my own environment.
+---
 
-## Current Scripts
+## Repository Goals
+
+- Practice Linux system administration
+- Develop Bash scripting skills
+- Learn Git and GitHub workflows
+- Build reusable administration utilities
+- Document troubleshooting and solutions
+- Create a professional portfolio of Linux projects
+
+---
+
+## Repository Structure
+
+```
+linux-toolkit/
+├── assets/
+├── docs/
+├── scripts/
+├── CHANGELOG.md
+├── deploy.sh
+├── LICENSE
+├── README.md
+└── TODO.md
+```
+
+---
+
+## Scripts
 
 | Script | Description |
 |---------|-------------|
-| monitor.sh | Displays CPU, memory, disk usage, uptime, and system information. |
+| `backup.sh` | Interactive backup utility using `rsync` with confirmation prompts and deployment summary. |
+| `system-info.sh` | Displays operating system, hardware, memory, CPU, storage, and network information with basic health checks. |
+| `monitor.sh` | System monitoring utility for CPU, memory, disk usage, and other performance information. |
+
+---
+
+## Documentation
+
+Current documentation includes topics such as:
+
+- Apache HTTP Server
+- Debian installation
+- Raspberry Pi NAS
+- Remote access
+- SSL configuration
+- Linux troubleshooting
+- Bash scripting
+
+Documentation continues to grow as new projects are completed.
+
+---
 
 ## Technologies
 
-- Bash
 - Linux
-- Debian
-- Raspberry Pi
-- WSL
+- Bash
 - Git
 - GitHub
+- Apache HTTP Server
+- SSH
+- rsync
+- systemd
+- Networking
+- Raspberry Pi
 
-## Planned Additions
+---
 
-- Backup automation
-- Disk usage reporting
+## Current Projects
+
+- Linux Toolkit Utilities
+- Apache Troubleshooting Documentation
+- Linux Portfolio Website
+- Raspberry Pi NAS
+- Linux Web Server
+- Security Camera System
+
+---
+
+## Future Improvements
+
+- Additional Bash utilities
+- Automated deployment scripts
+- Log analysis utilities
+- Network troubleshooting tools
 - Service monitoring
-- Network diagnostics
-- Log analysis
-- yt-dlp helper scripts
-- FFmpeg utilities
-- Raspberry Pi administration tools
+- Backup automation
+- Expanded documentation
+- Installation guide
 
-## Project Status
+---
 
-This repository is under active development and will continue to grow as I complete new Linux projects and learn additional system administration skills.
+## Learning Objectives
+
+This repository is intended to demonstrate practical experience with:
+
+- Linux administration
+- Bash scripting
+- Git version control
+- Apache web server administration
+- SSH
+- Troubleshooting methodologies
+- Automation
+- Documentation
+
+---
+
+## Related Projects
+
+### Linux Portfolio
+
+The Linux Portfolio website showcases many of the projects and scripts contained in this repository.
+
+Portfolio repository:
+
+https://github.com/amoore34/linux-portfolio
+
+---
+
+## Author
+
+Amber Moore
+
+GitHub: https://github.com/amoore34
