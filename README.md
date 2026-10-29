@@ -25,7 +25,7 @@ linux-toolkit/
 ├── docs/
 ├── scripts/
 ├── CHANGELOG.md
-├── deploy.sh
+├── scripts/deploy.sh
 ├── LICENSE
 ├── README.md
 └── TODO.md
@@ -130,3 +130,28 @@ https://github.com/amoore34/linux-portfolio
 Amber Moore
 
 GitHub: https://github.com/amoore34
+
+## Running the utilities
+
+Run these from the repository root. The scripts are executable, so you can use either form shown below.
+
+```bash
+./scripts/system-info.sh
+./scripts/monitor.sh
+./scripts/backup.sh
+./scripts/deploy.sh
+```
+
+Use `bash scripts/<name>.sh` if your environment does not preserve executable permissions after copying files.
+
+## Documentation index
+
+- [Apache troubleshooting](docs/apache-troubleshooting.md)
+- [Debian installation](docs/debian-installation.md)
+- [Linux web server](docs/linux-web-server.md)
+- [Linux web-server command reference](docs/linux-web-server-commands.md)
+- [Raspberry Pi NAS](docs/raspberry-pi-nas.md)
+- [Security camera system](docs/security-camera-system.md)
+- [WSL remote access](docs/wsl-remote-access.md)
+
+The companion [Linux Portfolio](https://github.com/amoore34/linux-portfolio) presents these projects as a visual portfolio.
